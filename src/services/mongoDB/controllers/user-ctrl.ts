@@ -25,7 +25,7 @@ export const insertUser = async (body: any, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response) => {
-    User.findOne({ UserName: req.params.UserName }).clone().then((user: User_Type | null) => {
+    User.findOne({ UserName: req.params.UserName, Password:req.params.Password }).clone().then((user: User_Type | null) => {
         console.log(user);
         if (!user) {
             return res
