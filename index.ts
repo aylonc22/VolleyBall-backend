@@ -1,5 +1,4 @@
 import { initExpress } from "./src/services/express";
-
 import { db } from "./src/services/mongoDB/mongoConnection";
 import * as dotenv from 'dotenv';
 dotenv.config();
