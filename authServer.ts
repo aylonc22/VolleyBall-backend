@@ -14,7 +14,7 @@ const app: Express = express();
 app.use(express.json());
 
 //Register
-app.post('/register',register);
+app.post('/register', register);
 
 //Login Auth
 //Need UserName && Paswword
@@ -25,8 +25,8 @@ app.post('/login', async (req: Request, res: Response) => {
     const authenticate: IUser | undefined = await authenticateUser(UserName, Password);
     if (!authenticate)
         return res.status(401).json({ message: "Body missing username or password" });
-    const accessToken: string = generateAccessToken({ UserName: UserName, Name: authenticate.Name });
-    const refreshToken: string = generateRefreshToken({ UserName: UserName, Name: authenticate.Name });
+    const accessToken: string = generateAccessToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });
+    const refreshToken: string = generateRefreshToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });
     if (!await createRefreshToken(refreshToken))
         return res.status(501).json({ message: "There was an error while creating new refresh token" });
     return res.status(201).json({ message: "access granted", token: accessToken, refreshToken: refreshToken })

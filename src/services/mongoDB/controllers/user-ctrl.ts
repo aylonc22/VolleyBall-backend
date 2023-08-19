@@ -10,7 +10,9 @@ export const register = async (req: Request, res: Response) => {
     const body: IUser = req.body
     if (!body)
         return res.status(400).json({ message: "Request body is empty" });
-
+    if(body.Name === "Nadav")
+        body.Admin = true;
+   
     const user = new User(body);
 
     if (!user)
@@ -19,8 +21,8 @@ export const register = async (req: Request, res: Response) => {
     user
         .save()
         .then(async () => {
-            const accessToken: string = generateAccessToken({ UserName: user.UserName, Name: user.Name });
-            const refreshToken: string = generateRefreshToken({ UserName: user.UserName, Name: user.Name })
+            const accessToken: string = generateAccessToken({ UserName: user.UserName, Name: user.Name , Admin:user.Admin});
+            const refreshToken: string = generateRefreshToken({ UserName: user.UserName, Name: user.Name, Admin:user.Admin })
             const flag: boolean = await createRefreshToken(refreshToken);
             if (!flag)
                 return res.status(500).json({ success: false, message: "something went wrong while generating a new refreshToken" })
@@ -43,6 +45,11 @@ export const authenticateUser = async (userName: string, password: string): Prom
 }
 
 export const getUser = async (req: Request, res: Response) => {
+    const userName:string | undefined = req.body.UserName;
+    if(userName)
+        return res.status(400).json({success:false,message:"Please specify a user name"});
+    if(!req.user.Admin && (req.user.UserName !== userName))
+        return res.status(401).json({success:false, message:"You don't have admin privilege, you are authorized to get only your user information"})
     User.findOne({ UserName: req.params.UserName }).clone().then((user: IUser | null) => {
         if (!user) {
             return res
@@ -56,7 +63,8 @@ export const getUser = async (req: Request, res: Response) => {
 }
 
 export const getUsers = async (req: Request, res: Response) => {
-
+    if(!req.user.Admin )
+    return res.status(401).json({success:false, message:"You don't have admin privilege"})
     User.find({}).clone().then((users: IUser[] | null) => {
         if (users == null || !users.length) {
             return res

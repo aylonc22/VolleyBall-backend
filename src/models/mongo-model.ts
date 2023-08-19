@@ -3,6 +3,7 @@ export interface IUser {
     Name: string,
     Password: string,
     Picture: string,
+    Admin?:Boolean,
 
 }
 
