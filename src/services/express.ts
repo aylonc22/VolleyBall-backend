@@ -1,5 +1,6 @@
 import axios from 'axios';
 import express, { Express, Request, Response } from 'express';
+import cors from 'cors';
 
 
 
@@ -7,7 +8,7 @@ export const initExpress = ()=>{
     const app:Express = express();   
     //const cors = require('cors');
     
-    //app.use(cors());
+    app.use(cors());
     app.use(express.json());      
     app.listen(process.env.PORT,()=>console.log("[Server] is running..."));
     

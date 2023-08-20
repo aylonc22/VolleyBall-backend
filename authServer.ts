@@ -9,10 +9,11 @@ import { IAUser } from './src/models/express-model';
 const { REFRESH_TOKEN_SECRET } = process.env;
 import { db } from "./src/services/mongoDB/mongoConnection";
 import { authenticateUser, register } from './src/services/mongoDB/controllers/user-ctrl';
+import cors from 'cors';
 
 const app: Express = express();
 app.use(express.json());
-
+app.use(cors());
 //Register
 app.post('/register', register);
 
