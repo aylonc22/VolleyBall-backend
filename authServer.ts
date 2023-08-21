@@ -20,6 +20,7 @@ app.post('/register', register);
 //Login Auth
 //Need UserName && Paswword
 app.post('/login', async (req: Request, res: Response) => {
+    console.log(req.body);
     const { UserName, Password } = req.body;
     if (!UserName || !Password)
         return res.status(401).json({ message: "Body missing username or password" });
@@ -30,7 +31,7 @@ app.post('/login', async (req: Request, res: Response) => {
     const refreshToken: string = generateRefreshToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });
     if (!await createRefreshToken(refreshToken))
         return res.status(501).json({ message: "There was an error while creating new refresh token" });
-    return res.status(201).json({ message: "access granted", token: accessToken, refreshToken: refreshToken })
+    return res.status(201).json({ message: "access granted", token: accessToken, refreshToken: refreshToken, user: { UserName: authenticate.UserName, Name: authenticate.Name, Picture: authenticate.Picture, Admin: authenticate.Picture } })
 
 });
 

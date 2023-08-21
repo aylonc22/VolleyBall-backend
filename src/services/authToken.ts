@@ -5,7 +5,7 @@ import { IAUser } from '../models/express-model';
 
 const {ACCESS_TOKEN_SECRET,REFRESH_TOKEN_SECRET} = process.env
 export const generateAccessToken: Function = (user: object): string => {
-    return jwt.sign(user, ACCESS_TOKEN_SECRET as string, { expiresIn: '15s' });
+    return jwt.sign(user, ACCESS_TOKEN_SECRET as string, { expiresIn: '1m' });
 }
 
 export const generateRefreshToken: Function = (user: object): string => {
