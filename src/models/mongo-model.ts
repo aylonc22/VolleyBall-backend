@@ -3,8 +3,8 @@ export interface IUser {
     Name: String,
     Password: String,
     Picture: String,
-    Admin: Boolean,
-    Plans: IPlan[],
+    Admin?: Boolean,
+    Plans?: IPlan[],
 
 }
 

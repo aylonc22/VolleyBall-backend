@@ -20,12 +20,15 @@ app.post('/register', register);
 //Login Auth
 //Need UserName && Paswword
 app.post('/login', async (req: Request, res: Response) => {    
-    const { UserName, Password } = req.body;
+    const { UserName, Password, Google } = req.body;
     if (!UserName || !Password)
         return res.status(401).json({ message: "Body missing username or password" });
     const authenticate: IUser | undefined = await authenticateUser(UserName, Password);
-    if (!authenticate)
-        return res.status(401).json({ message: "Body missing username or password" });
+    if (!authenticate && !Google)
+        return res.status(401).json({ message: "User was not found" });
+    else
+        if(!authenticate)
+            return await register(req,res);
     const accessToken: string = generateAccessToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });
     const refreshToken: string = generateRefreshToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });
     if (!await createRefreshToken(refreshToken))

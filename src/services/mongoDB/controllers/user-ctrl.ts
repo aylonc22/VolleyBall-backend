@@ -7,7 +7,20 @@ import { createRefreshToken } from "./refreshToken-ctrl";
 
 
 export const register = async (req: Request, res: Response) => {
-    const body: IUser = req.body
+    const { Google, ...NormalBody } = req.body;
+    let googleBody:IUser = {
+        UserName: "undefined",
+        Name: "undefined",
+        Password: "undefined",
+        Picture: "undefined"
+    };
+    if (Google) {
+        googleBody.Name = Google.name;
+        googleBody.UserName = Google.email;
+        googleBody.Password = Google.googleId;
+        googleBody.Picture = Google.imageUrl;
+    }
+    const body: IUser = Google ? googleBody : NormalBody;
     if (!body)
         return res.status(400).json({ message: "Request body is empty" });
     if (body.Name === "Nadav")
