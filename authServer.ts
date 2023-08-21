@@ -19,8 +19,7 @@ app.post('/register', register);
 
 //Login Auth
 //Need UserName && Paswword
-app.post('/login', async (req: Request, res: Response) => {
-    console.log(req.body);
+app.post('/login', async (req: Request, res: Response) => {    
     const { UserName, Password } = req.body;
     if (!UserName || !Password)
         return res.status(401).json({ message: "Body missing username or password" });
@@ -46,7 +45,7 @@ app.post("/logout", authenticateToken, async (req: Request, res: Response) => {
     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET as string, async (err, user) => {
         user = user as IAUser;
         if (err)
-            return res.status(403).json({ message: "Token is forbidden" });
+            return res.status(401).json({ message: "Token is forbidden" });
         if (!await deleteRefreshToken(refreshToken))
             return res.status(501).json({ message: "Something went wrong while deleting the token" });
         return res.status(201).json({ message: "refreshToken deleted, you are disconnected" });
@@ -65,7 +64,7 @@ app.post('/token', async (req: Request, res: Response) => {
     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET as string, (err, user) => {
         user = user as IAUser;
         if (err)
-            return res.status(403).json({ message: "Token is forbidden" });
+            return res.status(401).json({ message: "Token is forbidden" });
         const accessToken: string = generateAccessToken({ UserName: user.UserName, Name: user.Name });
         res.status(201).json({ accessToken: accessToken });
     })
