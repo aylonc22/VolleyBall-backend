@@ -11,8 +11,8 @@ export const createPlan = async (req:Request,res:Response)=>{
     const user:IEUser = await User.findOneAndUpdate({UserName:UserName},{$push:{Plans:{Name:PlanName}}},{returnOriginal:false})
     .catch((err:Error)=>res.status(400).json({message:err.message}))
     .then((r:any)=>r)
-    if(user)
-        return res.status(201).json({message:"Plan created",id:user.Plans?user.Plans[user.Plans.length-1]._id:undefined});
+    if(user.Plans)
+        return res.status(201).json({message:"Plan created",id:user.Plans[user.Plans.length-1]._id});
     return res.status(500).json({message:"something went wrong"});
     
 }
