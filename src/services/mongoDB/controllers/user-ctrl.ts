@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
             const flag: boolean = await createRefreshToken(refreshToken);
             if (!flag)
                 return res.status(500).json({ success: false, message: "something went wrong while generating a new refreshToken" })
-            return res.status(201).json({ success: true, message: "User is created", token: accessToken, refreshToken: refreshToken, user: { UserName: user.UserName, Name: user.Name, Picture: user.Picture, Admin: user.Picture } })
+            return res.status(201).json({ success: true, message: "User is created", token: accessToken, refreshToken: refreshToken, user: { UserName: user.UserName, Name: user.Name, Picture: user.Picture, Admin: user.Admin } })
         })
         .catch((error: Error) => {
             return res.status(400).json({ success: false, error: error.message });

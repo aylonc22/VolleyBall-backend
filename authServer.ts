@@ -14,7 +14,10 @@ import cors from 'cors';
 const app: Express = express();
 app.use(express.json());
 app.use(cors());
+
+
 //Register
+// UserName: String,Name: String,Password: String,Picture: String,
 app.post('/register', register);
 
 //Login Auth

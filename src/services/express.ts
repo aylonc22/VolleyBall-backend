@@ -13,7 +13,8 @@ export const initExpress = ()=>{
     app.listen(process.env.PORT,()=>console.log(`[Server] is running on port ${process.env.PORT}`));
     
     const userRoute = require('./mongoDB/routers/userRoute');
-    app.use(userRoute);
+    const planRoute = require('./mongoDB/routers/planRoute');
+    app.use(userRoute,planRoute);
     // rest_riot api request start with /api
    // initRA(app)
     // data base api request start with /db
