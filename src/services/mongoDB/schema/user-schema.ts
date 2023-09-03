@@ -42,7 +42,8 @@ const UserSchema = new Schema(
                                 Date: { type: Date, required: true },
                                 Id: { type: String, required: true },
                             }], required: true,
-                        }
+                        },
+                        Count: { type: Number, required: true, default: 0 }
                     }],
                     required: true,
                 }

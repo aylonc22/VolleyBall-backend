@@ -21,6 +21,7 @@ export interface ITable {
     Name: String,
     Exercises: IExercise[],
     Dates: IDate[],
+    Count:number,
 }
 
 export interface IDate {

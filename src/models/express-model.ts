@@ -32,6 +32,7 @@ export interface IEUser {
         Name: String,
         Exercises: IEExercise[],
         Dates: IEDate[],
+        Count: number,
     }
     
     export interface IEDate {
