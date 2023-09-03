@@ -17,7 +17,7 @@ const UserSchema = new Schema(
                         Name: { type: String, required: true },
                         Exercises: {
                             type: [{
-                                Name: { type: String, required: true },
+                                Uuid: { type: String, required: true },
                                 Times: {
                                     type: [{
                                         Sets: {

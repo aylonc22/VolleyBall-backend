@@ -29,6 +29,7 @@ export interface IEUser {
     }
     
     export interface IETable {
+        _id:ObjectId,
         Name: String,
         Exercises: IEExercise[],
         Dates: IEDate[],
@@ -41,7 +42,7 @@ export interface IEUser {
     }
     
     export interface IEExercise {
-        Name: String,
+        Uuid: String,
         Times: IETime[],
         Sets: Number,
         Reps: Number,

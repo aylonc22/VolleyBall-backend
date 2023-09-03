@@ -30,7 +30,7 @@ export interface IDate {
 }
 
 export interface IExercise {
-    Name: String,
+    Uuid: String,
     Times: ITime[],
     Sets: Number,
     Reps: Number,
