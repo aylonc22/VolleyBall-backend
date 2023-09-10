@@ -14,7 +14,7 @@ export interface IEUser {
         Name: String,
         Password: String,
         Picture: String,
-        Admin?: Boolean,
+        Admin: Boolean,
         Plans?: IEPlan[],
         createdAt:NativeDate,
         updatedAt:NativeDate,

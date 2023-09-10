@@ -29,7 +29,7 @@ export const register = async (req: Request, res: Response) => {
     const user = new User(body);
 
     if (!user)
-        return res.status(400).json({ message: "Body's parameters didn't match the criteria for creating user in the data base" });
+        return res.status(400).json({ message: "Body's parameters didn't match the criteria for creating a user in the data base" });
 
     user
         .save()

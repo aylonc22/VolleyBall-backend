@@ -33,7 +33,7 @@ export const createTable = async (req: Request, res: Response) => {
     if (_err !== "")
         return res.status(400).json({ message: _err })
     if (user && user.Plans) {
-        const Tables: IETable[] | undefined = user.Plans.find((f: IEPlan) => f._id == PlanId)!.Tables
+        const Tables: IETable[] | undefined = user.Plans.find((plan: IEPlan) => plan._id == PlanId)!.Tables
         if (!Tables)
             return res.status(400).json({ message:"Table didn't create"})
         return res.status(201).json({ message: "Table created", id: Tables[Tables.length - 1]._id });
@@ -41,4 +41,8 @@ export const createTable = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "something went wrong" });
 
 
+}
+
+export const recordTraining = async (req:Request,res:Response)=>{
+    
 }
