@@ -14,7 +14,8 @@ export const initExpress = ()=>{
     
     const userRoute = require('./mongoDB/routers/userRoute');
     const planRoute = require('./mongoDB/routers/planRoute');
-    app.use(userRoute,planRoute);
+    const exerciseRoute = require('./mongoDB/routers/exerciseRoute');
+    app.use(userRoute,planRoute,exerciseRoute);
     // rest_riot api request start with /api
    // initRA(app)
     // data base api request start with /db
