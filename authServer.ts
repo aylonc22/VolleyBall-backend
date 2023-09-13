@@ -5,7 +5,7 @@ import { IUser } from './src/models/mongo-model';
 import { createRefreshToken, deleteRefreshToken, isRefreshTokenIn } from './src/services/mongoDB/controllers/refreshToken-ctrl';
 import jwt from 'jsonwebtoken';
 import { authenticateToken, generateAccessToken, generateRefreshToken } from './src/services/authToken';
-import { IAUser } from './src/models/express-model';
+import { IAUser, IEPlan, IEUser } from './src/models/express-model';
 const { REFRESH_TOKEN_SECRET } = process.env;
 import { db } from "./src/services/mongoDB/mongoConnection";
 import { authenticateUser, register } from './src/services/mongoDB/controllers/user-ctrl';
@@ -26,17 +26,18 @@ app.post('/login', async (req: Request, res: Response) => {
     const { UserName, Password, Google } = req.body;
     if (!UserName || !Password)
         return res.status(401).json({ message: "Body missing username or password" });
-    const authenticate: IUser | undefined = await authenticateUser(UserName, Password);
+    const authenticate: IEUser | undefined = await authenticateUser(UserName, Password);
     if (!authenticate && !Google)
         return res.status(401).json({ message: "User was not found" });
     else
         if(!authenticate)
             return await register(req,res);
     const accessToken: string = generateAccessToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });
-    const refreshToken: string = generateRefreshToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });
+    const refreshToken: string = generateRefreshToken({ UserName: UserName, Name: authenticate.Name, Admin: authenticate.Admin });    
     if (!await createRefreshToken(refreshToken))
         return res.status(501).json({ message: "There was an error while creating new refresh token" });
-    return res.status(201).json({ message: "access granted", token: accessToken, refreshToken: refreshToken, user: { UserName: authenticate.UserName, Name: authenticate.Name, Picture: authenticate.Picture, Admin: authenticate.Admin } })
+    return res.status(201).json({ message: "access granted", token: accessToken, refreshToken: refreshToken, user: { UserName: authenticate.UserName, Name: authenticate.Name, Picture: authenticate.Picture, Admin: authenticate.Admin,
+    plans:authenticate.Plans?.map((plan:IEPlan)=>plan._id)} });
 
 });
 

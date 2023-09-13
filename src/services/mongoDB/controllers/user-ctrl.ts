@@ -4,6 +4,7 @@ import { IUser } from "../../../models/mongo-model";
 import { Error } from "mongoose";
 import { generateAccessToken, generateRefreshToken } from "../../authToken";
 import { createRefreshToken } from "./refreshToken-ctrl";
+import { IEUser } from "../../../models/express-model";
 
 
 export const register = async (req: Request, res: Response) => {
@@ -47,8 +48,8 @@ export const register = async (req: Request, res: Response) => {
 };
 
 
-export const authenticateUser = async (userName: string, password: string): Promise<IUser | undefined> => {
-    const res: IUser | undefined = await User.findOne({ UserName: userName, Password: password }).clone().then((user: IUser | null) => {
+export const authenticateUser = async (userName: string, password: string): Promise<IEUser | undefined> => {
+    const res: IEUser | undefined = await User.findOne({ UserName: userName, Password: password }).clone().then((user:any) => {
         if (!user) {
             return undefined
         }
